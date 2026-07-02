@@ -1,6 +1,7 @@
 # Jada Jones - agent.py
 import anthropic
-from tools import parse_spec, extract_endpoints, indentify_auth, generate_client
+from tools import parse_spec, extract_endpoints, identify_auth, generate_client
+from rag import index_endpoints, retrieve_relevant
 
 client = anthropic.Anthropic()
 
@@ -97,13 +98,14 @@ def run_agent(spec_path: str):
                     result = parse_spec(block.input["path"])
                 elif block.name == "extract_endpoints":
                     result = extract_endpoints(block.input["spec"])
+                    index_endpoints(result)
                 elif block.name == "identify_auth":
-                    result = indentify_auth(block.input["spec"])
+                    result = identify_auth(block.input["spec"])
                 elif block.name == "generate_client":
                     result = generate_client(
                         block.input["endpoints"],
                         block.input["auth"],
-                        block.input["base_urls"]
+                        block.input["base_url"]
                     )
                 else:
                     result = {"error": f"Unknown tool: {block.name}"}

@@ -54,7 +54,7 @@ def indentify_auth(spec: dict) -> dict:
             }
     return {"type": "unknown"}
 
-def genetate_client(endpoints: list, auth: dict, base_url: str) -> str:
+def generate_client(endpoints: list, auth: dict, base_url: str) -> str:
     lines = []
 
     lines.append("import requests")
